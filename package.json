@@ -10,16 +10,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "backend": "nodemon index.js"
+    "backend": "nodemon index.js",
+    "frontend": "npm run start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "author": "Ritwik Shanker, Taranjeet Singh",
   "license": "ISC",
   "dependencies": {
     "body-parser": "latest",
     "dialogflow": "^0.10.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "npx": "^10.2.0",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "nodemon": "^1.19.1"
   }
 }
