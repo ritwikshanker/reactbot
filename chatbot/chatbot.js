@@ -11,12 +11,10 @@ const languageCode = config.dialogFlowSessionLanguageCode;
 
 const credentials = {
     client_email: config.googleClientEmail,
-    private_key:
-    config.googlePrivateKey,
+    private_key: config.googlePrivateKey,
 };
 
 const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
-
 
 
 const Registration = mongoose.model('registration');
@@ -24,22 +22,26 @@ const Registration = mongoose.model('registration');
 
 module.exports = {
 
-    getToken: async function() {
-        return new Promise((resolve) => {
+    getToken: async function ()
+    {
+        return new Promise((resolve) =>
+        {
             googleAuth.authenticate(
                 {
                     email: config.googleClientEmail,
                     key: config.googlePrivateKey,
                     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
                 },
-                (err, token) => {
+                (err, token) =>
+                {
                     resolve(token);
                 },
             );
         });
     },
 
-    textQuery: async function(text, userID, parameters = {}) {
+    textQuery: async function (text, userID, parameters = {})
+    {
         let self = module.exports;
         const sessionPath = sessionClient.sessionPath(projectId, sessionId + userID);
 
@@ -63,10 +65,10 @@ module.exports = {
         return responses;
 
 
-
     },
 
-    eventQuery: async function(event, userID,  parameters = {}) {
+    eventQuery: async function (event, userID, parameters = {})
+    {
         let self = module.exports;
         let sessionPath = sessionClient.sessionPath(projectId, sessionId + userID);
 
@@ -88,13 +90,16 @@ module.exports = {
     },
 
 
-    handleAction: function(responses){
+    handleAction: function (responses)
+    {
         let self = module.exports;
         let queryResult = responses[0].queryResult;
 
-        switch (queryResult.action) {
+        switch (queryResult.action)
+        {
             case 'recommendcourses-yes':
-                if (queryResult.allRequiredParamsPresent) {
+                if (queryResult.allRequiredParamsPresent)
+                {
                     self.saveRegistration(queryResult.parameters.fields);
                 }
                 break;
@@ -103,7 +108,8 @@ module.exports = {
         return responses;
     },
 
-    saveRegistration: async function(fields){
+    saveRegistration: async function (fields)
+    {
         const registration = new Registration({
             name: fields.name.stringValue,
             address: fields.address.stringValue,
@@ -111,10 +117,12 @@ module.exports = {
             email: fields.email.stringValue,
             dateSent: Date.now()
         });
-        try{
+        try
+        {
             let reg = await registration.save();
             console.log(reg);
-        } catch (err){
+        } catch (err)
+        {
             console.log(err);
         }
     }
