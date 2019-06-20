@@ -1,13 +1,9 @@
 import React from 'react';
-// import Landing from "../pages/Landing";
 
-const ItemList = () =>
-{
-    return (
-        <div>
-            Here goes the list of items
-        </div>
-    )
-};
+const ItemList = () => (
+    <div>
+        <h1>Here goes a list of items</h1>
+    </div>
+);
 
 export default ItemList;
