@@ -47,7 +47,7 @@ class Chatbot extends Component
                     text: text
                 }
             }
-        }
+        };
         this.setState({messages: [...this.state.messages, says]});
 
 
@@ -118,7 +118,7 @@ class Chatbot extends Component
                     says = {
                         speaks: 'bot',
                         msg: msg
-                    }
+                    };
                     this.setState({messages: [...this.state.messages, says]});
                 }
             }
@@ -137,7 +137,7 @@ class Chatbot extends Component
                             text: "I'm having troubles. I need to terminate. will be back later"
                         }
                     }
-                }
+                };
                 this.setState({messages: [...this.state.messages, says]});
                 let that = this;
                 setTimeout(function ()
