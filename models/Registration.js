@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Schema} = mongoose;
+const Schema = mongoose.Schema;
 
 const registrationSchema = new Schema({
     name: String,
@@ -9,4 +9,5 @@ const registrationSchema = new Schema({
     registerDate: Date
 });
 
-mongoose.model('registration', registrationSchema);
+var Registrations = mongoose.model('registration', registrationSchema);
+

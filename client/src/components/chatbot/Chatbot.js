@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 
 import Cookies from 'universal-cookie';
 import {v4 as uuid} from 'uuid';
-
 import Message from './Message';
 import Card from './Card';
 import QuickReplies from './QuickReplies';
@@ -48,7 +47,7 @@ class Chatbot extends Component
                 }
             }
         };
-        this.setState({messages: [...this.state.messages, says]});
+        this.setState({messages: [this.state.messages, says]});
 
 
         const request = {
@@ -67,7 +66,7 @@ class Chatbot extends Component
 
     async df_event_query(event)
     {
-
+        console.log('event_query');
         const request = {
             queryInput: {
                 event: {
@@ -83,7 +82,7 @@ class Chatbot extends Component
 
     async df_client_call(request)
     {
-
+        console.log('client');
         try
         {
 
@@ -93,20 +92,20 @@ class Chatbot extends Component
                 this.setState({clientToken: res.data.token});
             }
 
-            var config = {
+            let config = {
                 headers: {
                     'Authorization': "Bearer " + this.state.clientToken,
                     'Content-Type': 'application/json; charset=utf-8'
                 }
             };
-
-
+            // console.log(config);
             const res = await axios.post(
-                'https://dialogflow.googleapis.com/v2/projects/' + process.env.REACT_APP_GOOGLE_PROJECT_ID +
-                '/agent/sessions/' + process.env.REACT_APP_DF_SESSION_ID + cookies.get('userID') + ':detectIntent',
+                'https://dialogflow.googleapis.com/v2/projects/petpalagent-jiiiks' +
+                '/agent/sessions/' + process.env.REACT_APP_DIALOGFLOW_SESSION_ID + cookies.get('userID') + ':detectIntent',
                 request,
                 config
             );
+            console.log(res);
 
             let says = {};
 
@@ -124,10 +123,10 @@ class Chatbot extends Component
             }
         } catch (e)
         {
-            if (e.response.status === 401 && this.state.regenerateToken < 1)
+            if (this.state.regenerateToken < 1 && e.response.status === 401)
             {
                 this.setState({clientToken: false, regenerateToken: 1});
-                this.df_client_call(request);
+                await this.df_client_call(request);
             } else
             {
                 let says = {
@@ -162,12 +161,12 @@ class Chatbot extends Component
 
     async componentDidMount()
     {
-        this.df_event_query('Welcome');
+        await this.df_event_query('Welcome');
 
         if (window.location.pathname === '/shop' && !this.state.shopWelcomeSent)
         {
             await this.resolveAfterXSeconds(1);
-            this.df_event_query('WELCOME_SHOP');
+            await this.df_event_query('WELCOME_SHOP');
             this.setState({shopWelcomeSent: true, showBot: true});
         }
 
@@ -223,7 +222,7 @@ class Chatbot extends Component
         }
     }
 
-    renderCards(cards)
+    static renderCards(cards)
     {
         return cards.map((card, i) => <Card key={i} payload={card}/>);
     }
@@ -248,7 +247,7 @@ class Chatbot extends Component
                         </div>
                         <div style={{overflow: 'auto', overflowY: 'scroll'}}>
                             <div style={{height: 300, width: message.msg.payload.cards.length * 270}}>
-                                {this.renderCards(message.msg.payload.cards)}
+                                {Chatbot.renderCards(message.msg.payload.cards)}
                             </div>
                         </div>
                     </div>
