@@ -243,7 +243,7 @@ class Chatbot extends Component
                     <div style={{overflow: 'hidden'}}>
                         <div className="col s2">
                             <a href="/"
-                               className="btn-floating btn-large waves-effect waves-light red">{message.speaks}</a>
+                               className="btn-floating btn-large waves-effect waves-light">{message.speaks}</a>
                         </div>
                         <div style={{overflow: 'auto', overflowY: 'scroll'}}>
                             <div style={{height: 300, width: message.msg.payload.cards.length * 270}}>
@@ -305,7 +305,7 @@ class Chatbot extends Component
                     right: 0,
                     border: '1px solid lightgray'
                 }}>
-                    <nav>
+                    <nav className="light-blue lighten-1">
                         <div className="nav-wrapper">
                             <a href="/" className="brand-logo">ChatBot</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -346,7 +346,7 @@ class Chatbot extends Component
                     right: 0,
                     border: '1px solid lightgray'
                 }}>
-                    <nav>
+                    <nav className="light-blue lighten-1">
                         <div className="nav-wrapper">
                             <a href="/" className="brand-logo">ChatBot</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">

@@ -24,6 +24,7 @@
     "dialogflow-fulfillment": "^0.6.1",
     "express": "^4.17.1",
     "google-oauth-jwt": "^0.2.0",
+    "material-icons-react": "^1.0.4",
     "mongoose": "^5.6.0",
     "npx": "^10.2.0",
     "socket.io": "^2.2.0"

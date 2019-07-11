@@ -1,38 +1,18 @@
 import React from 'react';
-import { IconContext } from "react-icons";
-import { FaPhone } from 'react-icons/fa';
-import { FaWhatsapp } from 'react-icons/fa';
-import { FaRocketchat } from 'react-icons/fa';
-import {Link} from "react-router-dom";
+import MaterialIcon, {colorPalette} from 'material-icons-react';
+
 const Landing = () => (
 
-    <div style={{textAlign: 'center'}}>
-        <h3>Selling you great stuff!</h3>
-        with the help of the chatbot<br/><br/><br/>
-        <ul id="nav-mobile" className="left hide-on-med-and-down" style={{border:"2px solid black",borderRadius:'30%',padding:'5px',margin:'5px'}}>
-        <li><Link to={'/shop'}>
-        <IconContext.Provider value={{ color: "black", className: "global-class-name", size:"3em" ,textAlign: 'right'}}>
-            <div>
-                <FaPhone/><br/>
-
-            </div>
-        </IconContext.Provider></Link></li></ul>
-        <ul id="nav-mobile" className="left hide-on-med-and-down" style={{border:"2px solid black",borderRadius:'30%',padding:'5px',margin:'5px'}}>
-        <li><Link to={'/shop'}>
-            <IconContext.Provider value={{ color: "black", className: "global-class-name", size:"3em" ,textAlign: 'right'}}>
-                <div>
-                    <FaWhatsapp/><br/>
-
-                </div>
-            </IconContext.Provider></Link></li></ul>
-        <ul id="nav-mobile" className="left hide-on-med-and-down" style={{border:"2px solid black",borderRadius:'30%',padding:'5px',margin:'5px'}}>
-        <li><Link to={'/'}>
-            <IconContext.Provider value={{ color: "black", className: "global-class-name", size:"3em" ,textAlign: 'right'}}>
-                <div>
-                    <FaRocketchat/><br/>
-
-                </div>
-            </IconContext.Provider></Link></li></ul>
+    <div style={{
+        background: "white",
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: "100px",
+        alignItems: "center"
+    }}>
+        <MaterialIcon icon="call" size='200' color={colorPalette.blue._200}/>
+        <MaterialIcon icon="search" size='200'/>
+        <MaterialIcon icon="chat" size='200'/>
     </div>
 );
 
