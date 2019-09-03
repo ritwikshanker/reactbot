@@ -6,8 +6,7 @@ const Header = () => (
         <div className="nav-wrapper">
             <Link to={'/'} className="brand-logo center">Medicine Chatbot</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><Link to={'/shop'}>Shop</Link></li>
-                <li><Link to={'/about'}>About us</Link></li>
+                <li><a href={"https://petpal.in/about/"}>About us</a></li>
             </ul>
         </div>
     </nav>

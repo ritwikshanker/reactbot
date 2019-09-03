@@ -1,40 +1,70 @@
-import React, {Component} from 'react'
-import ReactSearchBox from 'react-search-box'
+import React from 'react';
 
-export default class Search extends Component
+class Search extends React.Component
 {
-    data = [
+    state = {
+        query: "",
+        data: [],
+        filteredData: []
+    };
+
+    handleInputChange = event =>
+    {
+        const query = event.target.value;
+
+        this.setState(prevState =>
         {
-            key: 'john',
-            value: 'John Doe',
-        },
-        {
-            key: 'jane',
-            value: 'Jane Doe',
-        },
-        {
-            key: 'mary',
-            value: 'Mary Phillips',
-        },
-        {
-            key: 'robert',
-            value: 'Robert',
-        },
-        {
-            key: 'karius',
-            value: 'Karius',
-        },
-    ];
+            const filteredData = prevState.data.filter(element =>
+            {
+                return element.name.toLowerCase().includes(query.toLowerCase());
+            });
+
+            return {
+                query,
+                filteredData
+            };
+        });
+    };
+
+    getData = () =>
+    {
+        fetch(`http://localhost:5000/medicineroute`)
+            .then(response => response.json())
+            .then(data =>
+            {
+                const {query} = this.state;
+                const filteredData = data.filter(element =>
+                {
+                    return element.name.toLowerCase().includes(query.toLowerCase());
+                });
+
+                this.setState({
+                    data,
+                    filteredData
+                });
+            });
+    };
+
+    componentWillMount()
+    {
+        this.getData();
+    }
 
     render()
     {
         return (
-            <ReactSearchBox
-                placeholder="Input the name of medicine"
-                value="Doe"
-                data={this.data}
-                callback={record => console.log(record)}
-            />
-        )
+            <div className="searchForm">
+                <form>
+                    <input
+                        placeholder="Search for..."
+                        value={this.state.query}
+                        onChange={this.handleInputChange}
+                    />
+                </form>
+                <div>{this.state.filteredData.map(i => <p>{i.name}</p>)}</div>
+            </div>
+        );
     }
 }
+
+export default Search;
