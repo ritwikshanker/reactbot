@@ -1,7 +1,7 @@
 const {WebhookClient} = require('dialogflow-fulfillment');
 
 const mongoose = require('mongoose');
-const Registration = mongoose.model('registration');
+const Registration = require('./../models/Registration');
 
 module.exports = app =>
 {
@@ -9,15 +9,56 @@ module.exports = app =>
     {
         const agent = new WebhookClient({request: req, response: res});
 
-        async function registration(agent)
+        async function registrationName(agent)
         {
-
             const registration = new Registration({
-                name: agent.parameters.name,
-                address: agent.parameters.address,
-                phone: agent.parameters.phone,
-                email: agent.parameters.email,
+                username: agent.parameters.username,
                 dateSent: Date.now()
+            });
+            try
+            {
+                let reg = await registration.save();
+                console.log(reg);
+            } catch (err)
+            {
+                console.log(err);
+            }
+        }
+
+        async function registrationEmail(agent)
+        {
+            const registration = new Registration({
+                email: agent.parameters.email
+            });
+            try
+            {
+                let reg = await registration.save();
+                console.log(reg);
+            } catch (err)
+            {
+                console.log(err);
+            }
+        }
+
+        async function registrationNumber(agent)
+        {
+            const registration = new Registration({
+                phone: agent.parameters.phone
+            });
+            try
+            {
+                let reg = await registration.save();
+                console.log(reg);
+            } catch (err)
+            {
+                console.log(err);
+            }
+        }
+
+        async function registrationAddress(agent)
+        {
+            const registration = new Registration({
+                address: agent.parameters.address
             });
             try
             {
@@ -36,10 +77,12 @@ module.exports = app =>
         }
 
         let intentMap = new Map();
-        intentMap.set('recommend courses - yes', registration);
         intentMap.set('Default Fallback Intent', fallback);
-
-        agent.handleRequest(intentMap);
+        intentMap.set('name-followup', registrationName);
+        intentMap.set('email-followup', registrationEmail);
+        intentMap.set('phone-number-followup', registrationNumber);
+        intentMap.set('user_address-followup', registrationAddress);
+        await agent.handleRequest(intentMap);
     });
 
 };

@@ -6,8 +6,10 @@ const registrationSchema = new Schema({
     address: String,
     phone: String,
     email: String,
-    registerDate: Date
+    registerDate: Date,
+    medicine: {name: String, quantity: Number}
 });
 
-var Registrations = mongoose.model('registration', registrationSchema);
+const Registrations = mongoose.model('registration', registrationSchema);
 
+module.exports = Registrations;

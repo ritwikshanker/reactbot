@@ -15,6 +15,7 @@ module.exports = app =>
     {
         let responses = await chatbot.textQuery(req.body.text, req.body.userID, req.body.parameters);
         res.send(responses[0].queryResult);
+
         //TODO
         // Check for action for difference factor
     });

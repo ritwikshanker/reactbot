@@ -67,29 +67,6 @@ module.exports = {
 
     },
 
-    eventQuery: async function (event, userID, parameters = {})
-    {
-        let self = module.exports;
-        let sessionPath = sessionClient.sessionPath(projectId, sessionId + userID);
-
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                event: {
-                    name: event,
-                    parameters: structjson.jsonToStructProto(parameters), //Dialogflow's v2 API uses gRPC. You'll need a jsonToStructProto method to convert your JavaScript object to a proto struct.
-                    languageCode: languageCode,
-                },
-            }
-        };
-
-        let responses = await sessionClient.detectIntent(request);
-        responses = self.handleAction(responses);
-        return responses;
-
-    },
-
-
     handleAction: function (responses)
     {
         let self = module.exports;
@@ -97,25 +74,89 @@ module.exports = {
 
         switch (queryResult.action)
         {
-            case 'recommendcourses-yes':
+            case 'DefaultWelcomeIntent-name':
+            {
                 if (queryResult.allRequiredParamsPresent)
                 {
-                    self.saveRegistration(queryResult.parameters.fields);
+                    self.saveRegistrationName(queryResult.parameters.fields);
                 }
                 break;
+            }
+            case 'DefaultWelcomeIntent-email':
+            {
+                if (queryResult.allRequiredParamsPresent)
+                {
+                    self.saveRegistrationEmail(queryResult.parameters.fields);
+                }
+                break;
+            }
+            case 'DefaultWelcomeIntent-number':
+            {
+                if (queryResult.allRequiredParamsPresent)
+                {
+                    self.saveRegistrationNumber(queryResult.parameters.fields);
+                }
+                break;
+            }
+            case 'DefaultWelcomeIntent-address':
+            {
+                if (queryResult.allRequiredParamsPresent)
+                {
+                    self.saveRegistrationAddress(queryResult.parameters.fields);
+                }
+                break;
+            }
         }
-
         return responses;
     },
 
-    saveRegistration: async function (fields)
+    saveRegistrationName: async function (fields)
     {
         const registration = new Registration({
-            name: fields.name.stringValue,
-            address: fields.address.stringValue,
-            phone: fields.phone.stringValue,
+            username: fields.username.stringValue,
+        });
+        try
+        {
+            let reg = await registration.save();
+            console.log(reg);
+        } catch (err)
+        {
+            console.log(err);
+        }
+    },
+
+    saveRegistrationEmail: async function (fields)
+    {
+        const registration = new Registration({
             email: fields.email.stringValue,
-            dateSent: Date.now()
+        });
+        try
+        {
+            let reg = await registration.save();
+            console.log(reg);
+        } catch (err)
+        {
+            console.log(err);
+        }
+    },
+    saveRegistrationNumber: async function (fields)
+    {
+        const registration = new Registration({
+            mobilenum: fields.mobilenum.stringValue,
+        });
+        try
+        {
+            let reg = await registration.save();
+            console.log(reg);
+        } catch (err)
+        {
+            console.log(err);
+        }
+    },
+    saveRegistrationAddress: async function (fields)
+    {
+        const registration = new Registration({
+            address: fields.address.stringValue,
         });
         try
         {
@@ -126,4 +167,5 @@ module.exports = {
             console.log(err);
         }
     }
-}
+
+};
