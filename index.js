@@ -19,17 +19,6 @@ client.connect(err =>
 });
 
 
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://chatbotDB:petpal123@cluster0-0qztr.mongodb.net/test?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, {useNewUrlParser: true});
-// client.connect(err =>
-// {
-//     const collection = client.db("ChatBot_training").collection("medicines");
-//     console.log("Connected correctly to server");
-//     client.close();
-// });
-
-
 require('./routes/dialogFlowRoutes')(app);
 require('./routes/fulfillmentRoutes')(app);
 
@@ -45,6 +34,17 @@ if (process.env.NODE_ENV === 'production')
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+
+
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://chatbotDB:petpal123@cluster0-0qztr.mongodb.net/test?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, {useNewUrlParser: true});
+// client.connect(err =>
+// {
+//     const collection = client.db("ChatBot_training").collection("medicines");
+//     console.log("Connected correctly to server");
+//     client.close();
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
